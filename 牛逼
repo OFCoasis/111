@@ -1,0 +1,82 @@
+迷宫
+
+#include<stdio.h>
+#include<windows.h>
+#include<conio.h>
+#include<string.h>
+
+char map[100][100] = {
+"*#*********",
+"***###*###*",
+"###**#****#",
+"*#**###**#*",
+"***********",
+"#####*##*##",
+"**#*****#*E",
+"***#*###**#",
+"*#*********",
+};
+
+
+int N = 9, M;
+int PX,PY;
+void printPerson()
+{
+	COORD pos;
+	pos.X = PX;
+	pos.Y =P Y;
+	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
+	printf("A");
+}
+void printMap()
+{
+	for (int i = 0; i < N; i++)
+	{
+		printf("%s\n", map[i]);
+	}
+	printPerson();
+}
+void Move(char dir)
+{
+	switch (dir)
+	{
+	case 'w':
+		PY--;
+		if (PY < 0) PY = 0;
+		if (map[PY][PX] == '#') PY++;
+		break;
+	case 's':
+		PY++;
+		if (curY >= N) curY = N - 1;
+		if (map[PY][PX] == '#') PY--;
+		break;
+	case 'a':
+		PX--;
+		if (curX < 0) curX = 0;
+		if (map[PY][PX] == '#') PX++;
+		break;
+	case 'd':
+		PX++;
+		if (PX >= M) PX = M - 1;
+		if (map[PY][PX] == '#') PX--;
+		break;
+	}
+} 
+
+
+int main()
+{
+	char t;
+	M = strlen(map[0]);
+	while (1)
+	{
+		system("cls");
+		printMap();
+		t = getchar();
+		Move(t);
+		if (map[PY][PX] == 'E') {
+			printf("通过成功");
+			break;
+		}
+	}
+}
