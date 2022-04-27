@@ -1,0 +1,143 @@
+#include<stdio.h>
+#include<malloc.h>
+
+struct student//定义一个类型
+{
+	int Age;
+	char name[12];
+	int ID;                    //类型含这几种属性，就是就是数据组合
+	struct student* next;//下一个接点的地址
+};
+struct student* headp = NULL;
+struct student* tailp = NULL;
+void addinformation()
+{
+	struct student* nodep = (struct student*)malloc(sizeof(struct student));
+	printf("请输入学生年龄\n");
+	scanf_s("%d",&nodep->Age);
+	printf("请输入学生姓名\n");
+	scanf_s("%s",nodep->name);
+	printf("请输入学生学号\n");
+	scanf_s("%d",&nodep->ID);
+	nodep->next = NULL;
+	if (headp == NULL)
+	{
+		headp = nodep;
+		tailp = nodep;
+	}
+	else
+	{
+		tailp->next = nodep;
+		tailp = nodep;
+	}
+	printf("添加成功\n");
+}
+
+void printstudent(struct student* curp1)
+{	
+	printf("年龄：%d 名字： %s 学号：%d\n",curp1->Age,curp1->name,curp1->ID);	
+}
+void printLinkedList(struct student *headp)
+{
+	while(headp !=NULL)
+	{	
+		printstudent(headp);
+		headp=headp->next;
+	}
+		
+}
+void findinformation()
+{
+	printf("请输入你要查询的学生学号信息\n");
+	int id;
+	scanf_s("%d",&id);
+	int flag=0;
+	struct student *curp1=headp;
+	
+	while(curp1 !=NULL)
+	{
+		if(curp1->ID==id)
+		{
+			printstudent(curp1);
+			flag=1; 
+			break;
+		}
+		else
+		{
+			curp1=curp1->next;				
+		}
+		
+	}
+	if(flag==0)	
+	{
+				printf("没有这个学生Q——Q\n");
+	}
+}
+int  dateinformation()
+{
+   printf("请输入要删除的学生学号:\n");	
+   int id;
+   scanf_s("%d",&id);
+   struct student*curp1=headp;
+   if(curp1->ID==id)
+   {
+   	headp=headp->next;
+   	free(curp1);
+   	curp1=NULL;
+   	return 0;
+   }
+	struct student *prep=curp1;
+	curp1=curp1->next;
+	while(curp1!=NULL)
+	{
+	if(curp1->ID==id)
+	{
+	struct student *next=curp1->next;	
+		prep->next=next;
+		free(curp1);
+		curp1=NULL;
+		printf("找到\n");	
+	}	
+	else
+	{
+		prep=curp1;
+		curp1=curp1->next;	
+	}
+	
+	}
+
+	printf("无法找到该学生信息\n");
+	return 0;
+	} 
+
+int main()
+{
+	printf("欢迎来到学生管理系统\n");
+	printf("输入‘1’添加学生信息\n");
+	printf("输入‘2’查询学生信息\n");
+	printf("输入‘3’打印学生信息\n");
+	printf("输入‘4’删除某学生信息\n");
+	printf("输入‘5’退出程序");
+	
+	while(1)
+
+	{ 
+		int x;
+		scanf_s("%d", &x);
+		switch (x)
+		{
+		case 1:addinformation(); break;
+
+		case 2:findinformation(); break;
+
+		case 3:printstudent(0); break;
+
+		case 4:dateinformation(); break;
+		
+		case 5:return 0;
+		default:
+			break;
+		}
+	}
+	return 0;
+}
